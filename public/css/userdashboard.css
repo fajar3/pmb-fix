@@ -1,0 +1,59 @@
+
+/* Styling container agar melebar */
+.dashboard-container{
+    gap: 10px;
+    display: flex;
+}
+.main-content{
+    display: flex;
+    gap: 10px;
+}
+.sidebar{
+    background-color: #ffffff ;
+    height: 400px;
+    width: 100%;
+}
+.content{
+    background-color: #ffffff ;
+    height: 100px;
+    width: 400px;
+}
+/* Styling dashboard agar lebih lebar */
+.dashboard-card {
+    height: 200%;
+    width: 100%;
+    padding: 30px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.2); /* Transparan */
+    backdrop-filter: blur(10px); /* Efek blur */
+    -webkit-backdrop-filter: blur(10px); /* Safari */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #fff;
+}
+
+/* Styling tombol */
+.dashboard-card .btn {
+    width: 100%;
+    margin: 5px 0;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+/* Warna tombol */
+.btn-primary {
+    background-color: #4CAF50;
+    border: none;
+}
+
+.btn-warning {
+    background-color: #FFA500;
+    border: none;
+}
+
+.btn-danger {
+    background-color: #E74C3C;
+    border: none;
+}

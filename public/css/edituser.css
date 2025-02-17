@@ -1,0 +1,150 @@
+/* Custom Variables */
+:root {
+    --primary-green: #2ecc71;
+    --secondary-green: #27ae60;
+    --gradient-green: linear-gradient(135deg, #2ecc71, #27ae60);
+    --light-green: #edfff5;
+    --danger-red: #e74c3c;
+    --danger-dark: #c0392b;
+    --border-radius: 8px;
+    --transition: all 0.3s ease;
+}
+
+/* Container Layout */
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    background-color: white;
+    padding: 10px;
+    border-radius: 25px;;
+}
+
+/* Page Title */
+.container h2 {
+    color: var(--secondary-green);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--light-green);
+}
+
+/* Form Card */
+.edit-user-form {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #eee;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.25);
+    outline: none;
+}
+
+/* Select Styling */
+select.form-control {
+    cursor: pointer;
+    background-image: linear-gradient(45deg, transparent 50%, var(--secondary-green) 50%),
+                      linear-gradient(135deg, var(--secondary-green) 50%, transparent 50%);
+    background-position: calc(100% - 20px) calc(1em + 2px),
+                         calc(100% - 15px) calc(1em + 2px);
+    background-size: 5px 5px,
+                    5px 5px;
+    background-repeat: no-repeat;
+    appearance: none;
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* Buttons */
+.buton{
+    display: flex;
+    gap: 10px;
+}
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: var(--gradient-green);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--danger-red), var(--danger-dark));
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+    background: linear-gradient(135deg, var(--danger-dark), var(--danger-red));
+}
+
+/* Password Fields */
+.password-group {
+    background: var(--light-green);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin: 2rem 0;
+}
+
+.password-group .form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .edit-user-form {
+        padding: 1.5rem;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}

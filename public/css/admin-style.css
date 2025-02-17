@@ -1,0 +1,136 @@
+/* Table Container */
+.data-container {
+    background: rgb(255, 255, 255);
+    
+    backdrop-filter: blur(3px);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Table Header */
+.page-title {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-title::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 1.2rem;
+    background: var(--primary-green);
+    color: white;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+/* Table Styling */
+.table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.1);
+}
+
+.table {
+    margin-bottom: 0;
+    width: 100%;
+    background: white;
+}
+
+.table thead th {
+    background: rgba(76, 175, 80, 0.1);
+    color: #2c3e50;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 15px;
+    border: none;
+    white-space: nowrap;
+}
+
+.table tbody td {
+    padding: 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(76, 175, 80, 0.1);
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table tbody tr:hover {
+    background: rgba(76, 175, 80, 0.03);
+}
+
+/* Status Badge */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-pending {
+    background: rgba(255, 152, 0, 0.1);
+    color: #ff9800;
+}
+
+.status-verified {
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--primary-green);
+}
+
+/* Role Badge */
+.role-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.role-admin {
+    background: rgba(33, 150, 243, 0.1);
+    color: #2196f3;
+}
+
+.role-user {
+    background: rgba(156, 39, 176, 0.1);
+    color: #9c27b0;
+}
+
+/* Action Button */
+.btn-action {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-action:hover {
+    background: linear-gradient(135deg, #f57c00, #e65100);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
+    color: white;
+}
+
+.btn-action::before {
+    content: '\f013';
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
