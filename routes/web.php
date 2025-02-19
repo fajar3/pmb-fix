@@ -1,66 +1,71 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AdminBankController;
+use App\Http\Controllers\Admin\{
+    DashboardController,
+    UserController,
+    PaymentController,
+    RegistrationController as AdminRegistrationController,
+    SettingController
+};
+use App\Http\Controllers\{
+    AuthController,
+    HomeController,
+    RegistrationController,
+    PaymentController as UserPaymentController,
+    ProfileController
+};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RoleMiddleware;
 
+// Public routes
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Route Authentication
-Route::get('/', [AuthController::class, 'showLogin']);
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/signup', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/signup', [AuthController::class, 'register']);
-
-// Route User
-Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
-    Route::get('/register', [UserController::class, 'registerForm'])->name('user.registerForm');
-    Route::post('/register', [UserController::class, 'register'])->name('user.register');
-    Route::get('/payment', [UserController::class, 'payment'])->name('user.payment');
-    Route::post('/payment', [UserController::class, 'uploadPayment'])->name('user.uploadPayment');
-    Route::get('/settings', function () {
-        return view('user.settings');
-    })->name('settings');
-    Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
-
-    
-
+// Authentication routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
 });
 
-// Route Admin
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'showUsers'])->name('admin.dashboard');
-    Route::get('/admin/keuangan', [AdminController::class, 'keuangan'])->name('admin.keuangan');
-    Route::get('/admin/pendaftar', [AdminController::class, 'pendaftar'])->name('admin.pendaftar');
-    Route::post('/admin/confirm-payment/{id}', [AdminController::class, 'confirmPayment'])->name('admin.confirmPayment');
-    Route::get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
-    Route::get('/admin/users/edit/{id}', [AdminController::class, 'editUser'])->name('admin.editUser');
-Route::delete('/admin/users/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
-Route::put('/admin/users/update/{id}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
-Route::get('/admin/users/{id}/banned', [AdminController::class, 'banned'])->name('admin.banned');
-Route::get('/admin/payments/manage', [AdminController::class, 'managePayments'])->name('admin.managePayments');
-Route::post('/admin/payments/store', [AdminController::class, 'storePayment'])->name('admin.payments.store');
-Route::get('/admin/paymentsputra', [AdminController::class, 'paymentsPutra'])->name('admin.payments.putra');
-Route::get('/admin/paymentsputri', [AdminController::class, 'paymentsPutri'])->name('admin.payments.putri');
-Route::get('/admin/bank', [AdminBankController::class, 'index'])->name('admin.bank.index');
-Route::post('/admin/bank/putra', [AdminBankController::class, 'storePutra'])->name('admin.bank.putra.store');
-Route::put('/admin/bank/putra/{id}', [AdminBankController::class, 'updatePutra'])->name('admin.bank.putra.update');
-Route::post('/admin/bank/putri', [AdminBankController::class, 'storePutri'])->name('admin.bank.putri.store');
-Route::put('/admin/bank/putri/{id}', [AdminBankController::class, 'updatePutri'])->name('admin.bank.putri.update');
-Route::post('/admin/bank/update', [AdminBankController::class, 'updateAll'])->name('admin.bank.update');
-Route::get('/admin/pendaftar/{id}', [AdminController::class, 'detailpendaftar'])
-    ->name('admin.detailpendaftar');
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
 
-Route::get('/pendaftar/{id}', [AdminController::class, 'showpendaftar'])
-    ->name('pendaftar.show');
+// User routes
+Route::middleware(['auth', RoleMiddleware::class . ':user'])->group(function () {
+    Route::prefix('registration')->name('registration.')->group(function () {
+        Route::get('/', [RegistrationController::class, 'index'])->name('index');
+        Route::get('/create', [RegistrationController::class, 'create'])->name('create');
+        Route::post('/store', [RegistrationController::class, 'store'])->name('store');
+        Route::get('/{registration}', [RegistrationController::class, 'show'])->name('show');
+    });
 
-    Route::get('/admin/pendaftar/{id}/edit', [AdminController::class, 'editPendaftar'])->name('admin.editPendaftar');
-Route::put('/admin/pendaftar/{id}', [AdminController::class, 'updatePendaftar'])->name('admin.updatePendaftar');
-Route::get('/admin/payment-details/{userId}/{type}', [AdminController::class, 'paymentDetails'])
-    ->name('admin.payment.details');
+    Route::prefix('payment')->name('payment.')->group(function () {
+        Route::get('/{registration}/create', [UserPaymentController::class, 'create'])->name('create');
+        Route::post('/{registration}/store', [UserPaymentController::class, 'store'])->name('store');
+        Route::get('/{payment}', [UserPaymentController::class, 'show'])->name('show');
+        Route::post('/{payment}/upload-proof', [UserPaymentController::class, 'uploadProof'])->name('upload-proof');
+    });
 
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'show'])->name('show');
+        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::put('/update', [ProfileController::class, 'update'])->name('update');
+        Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password');
+    });
+});
+
+// Admin routes
+Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('users', UserController::class);
+    Route::resource('registrations', AdminRegistrationController::class);
+    Route::post('/registrations/{registration}/approve', [AdminRegistrationController::class, 'approve'])
+        ->name('registrations.approve');
+    Route::post('/registrations/{registration}/reject', [AdminRegistrationController::class, 'reject'])
+        ->name('registrations.reject');
+    Route::resource('payments', PaymentController::class);
 });

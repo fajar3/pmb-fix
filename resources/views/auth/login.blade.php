@@ -1,57 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-	<title>Login Pendaftaran</title>
-	<link rel="stylesheet" type="text/css" href="slide navbar style.css">
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+@section('content')
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="mb-4" height="60">
+                        <h4 class="mb-3">Login PPDB</h4>
+                    </div>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
 
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                   id="email" name="email" value="{{ old('email') }}" required autofocus>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-<link rel="stylesheet" href="{{ asset('css/login.css') }}">
-</head>
-<body>
-	<div class="main">  	
-		<input type="checkbox" id="chk" aria-hidden="true">
-		@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                                   id="password" name="password" required>
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                            <label class="form-check-label" for="remember">Remember me</label>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <p class="mb-0">Belum punya akun? 
+                                <a href="{{ route('register') }}">Daftar sekarang</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-@endif
-
-			<div class="signup">
-				<form action="{{ route('login') }}" method="POST" >
-					@csrf
-                    <div class="logo-container">
-        <img src="{{ asset('img/htp.png') }}" alt="Icon" width="64" height="64">
-    </div>
-					<label for="chk" aria-hidden="true">Login</label>
-					<input type="email" name="email" placeholder="Email" required="">
-					<input type="password" name="password" placeholder="Password" required="">
-					<button>Login</button>
-				</form>
-			</div>
- 
-			<div class="login">
-			<form action="{{ route('register') }}" method="POST">
-    @csrf
-		
-    
-		<label class="register-header" for="chk" aria-hidden="true">
-		<p>Belum punya akun?</p>
-        <i class="fa-solid fa-arrow-down"></i>
-        Daftar</label>
-
-
-    <input type="text" name="name" placeholder="Nama Lengkap" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <input type="password" name="password_confirmation" placeholder="Konfirmasi Password" required>
-    <button>Register</button>
-</form>
-
-	</div>
-</body>
-</html>
+</div>
+@endsection
